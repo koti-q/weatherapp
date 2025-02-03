@@ -1,0 +1,15 @@
+
+# Logs
+logs
+*.log
+npm-debug.log*
+log.json
+
+# env variables
+.env
+
+
+
+# vscode files
+.vscode/ 
+

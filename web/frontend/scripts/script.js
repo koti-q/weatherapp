@@ -52,28 +52,26 @@ function displayWeather(weatherData) {
     weatherInfo.style.display = 'block';
 }
 
-weatherInfo.style.display = 'none';
-
 // Event listener for the search button
-searchButton.addEventListener('click', async () => {
-// Clear any previous error messages
+async function handleSearch() {
+    // Clear any previous error messages
     errorMessage.style.display = 'none';
     const city = cityInput.value.trim();
-
+    
     if (!city) {
     // Display an error message
         errorMessage.style.display = 'block';
         errorMessageText.textContent = 'Please enter a city name.';
-
+    
         console.error('Please enter a city name.');
         return;
     }
-
+    
     console.log('Searching for weather in:', city);
-
+    
     try {
         const weatherData = await fetchWeather(city);
-
+    
         if (weatherData) {
             displayWeather(weatherData);
         }
@@ -82,4 +80,16 @@ searchButton.addEventListener('click', async () => {
         errorMessageText.textContent = 'An error occurred while fetching weather data.';
         console.error('Error:', error);
     }
+};
+
+searchButton.addEventListener('click', handleSearch);
+cityInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        handleSearch();
+    }
 });
+
+// Clear the input field and hide the weather info section when the page loads
+weatherInfo.style.display = 'none';
+cityInput.value = '';
+
