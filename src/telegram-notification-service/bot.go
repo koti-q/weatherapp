@@ -93,6 +93,7 @@ func handleMessages(bot *tgbotapi.BotAPI) {
 	u.Timeout = 60
 
 	updates := bot.GetUpdatesChan(u)
+	userState := make(map[int64]string) // Добавляем мапу для отслеживания состояния пользователя
 
 	for update := range updates {
 		if update.Message == nil {
@@ -100,24 +101,35 @@ func handleMessages(bot *tgbotapi.BotAPI) {
 		}
 
 		chatID := update.Message.Chat.ID
+		messageText := update.Message.Text
 
-		switch update.Message.Text {
-		case "/start":
+		switch {
+		case messageText == "/start":
 			chatIDs[chatID] = true
-			msg := tgbotapi.NewMessage(chatID, "Welcome! You'll receive daily weather updates.\n Enter the city below, please.")
+			userState[chatID] = "waiting_for_city"
+			msg := tgbotapi.NewMessage(chatID, "Welcome! Enter your city name:")
 			bot.Send(msg)
-		case "/stop":
+
+		case messageText == "/stop":
 			delete(chatIDs, chatID)
+			delete(userState, chatID)
 			msg := tgbotapi.NewMessage(chatID, "You've unsubscribed from weather updates.")
 			bot.Send(msg)
-		case "/weather":
-			weatherInfo, err := getWeatherUpdate("London")
+
+		case messageText == "/weather":
+			msg := tgbotapi.NewMessage(chatID, "Please enter city name:")
+			userState[chatID] = "waiting_for_city"
+			bot.Send(msg)
+
+		case userState[chatID] == "waiting_for_city":
+			weatherInfo, err := getWeatherUpdate(messageText)
 			if err != nil {
-				msg := tgbotapi.NewMessage(chatID, "Failed to get weather information")
+				msg := tgbotapi.NewMessage(chatID, "City not found. Please try again.")
 				bot.Send(msg)
 				continue
 			}
 			msg := tgbotapi.NewMessage(chatID, weatherInfo)
+			userState[chatID] = ""
 			bot.Send(msg)
 		}
 	}
