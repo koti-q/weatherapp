@@ -2,8 +2,8 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -32,7 +32,7 @@ func loadEnv() {
 	if apiKey == "" {
 		panic("WEATHER_API_KEY not found in .env file")
 	}
-	fmt.Println("API key loaded successfully" + apiKey)
+	log.Println("API key loaded successfully" + apiKey)
 }
 
 func init() {
