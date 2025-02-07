@@ -14,7 +14,7 @@ const WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/weather"
 var apiKey string
 
 func loadEnv() {
-	file, err := os.Open("../../.env")
+	file, err := os.Open("../config/.env")
 	if err != nil {
 		panic("Error opening .env file")
 	}

@@ -27,7 +27,7 @@ type WeatherResponse struct {
 }
 
 func loadEnv() {
-	file, err := os.Open("../../.env")
+	file, err := os.Open("../config/.env")
 	if err != nil {
 		panic("Error opening .env file")
 	}
