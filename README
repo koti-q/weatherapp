@@ -1,0 +1,35 @@
+# Weather App with Telegram Integration
+
+## Overview
+This is a simple weather application that provides weather updates and forecasts through a Telegram bot. Users can interact with the bot/frontend to get real-time weather information for their desired locations.
+
+## Features
+- Get current weather information.
+- Integration with Telegram for easy access and notifications.
+
+## TODO:
+- Add more weather information
+- Add weather for a next days, not only current
+- Make city for a notifications not hard-coded (I'll use postgresql probably)
+
+## Technologies Used
+- GO
+- Telegram Bot API
+- OpenWeatherMap API
+- JavaScript
+
+## Configuration
+1. Create a `.env` file in the root directory and add your API keys.
+Use the `.env.example` file as a template.
+
+## Usage
+1. Run the API server:
+   
+   go run ./weather-service/weatherAPI.go
+   
+2. Run the bot:
+   go run ./telegram-bot/bot.go
+
+## Contributing
+i don't feel that i'll really work with this anymore
+
